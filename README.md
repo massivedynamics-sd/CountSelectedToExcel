@@ -47,11 +47,7 @@ I developed this tool to solve the challenge of quickly exporting **selection-ba
 
 ---
 
-## 🔧 Installation
 
-1. Clone or download the repository:
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
 
 ## 📦 Features
 
