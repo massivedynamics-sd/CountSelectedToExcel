@@ -1,120 +1,114 @@
-# CountSelectedToExcel
-ArcGIS Pro Python Toolbox to export selected feature count to Excel.
-# 🧮 Count Selected Features to Excel – ArcGIS Python Toolbox
+📌 Count Selected Features to Excel (ArcGIS Pro)
 
-This ArcGIS Pro Python Toolbox allows you to **count the selected features** in any shapefile or feature layer and **export the result to an Excel file** automatically.
+When preparing reports from AI/deep learning feature detection (e.g., Mask R-CNN), it’s often necessary to export key statistics (like the number of detected objects) into Excel for calculations and field reporting.
 
----
-# 🌾 ArcGIS Tool: Count Selected Features to Excel
+This toolbox tool solves the common ArcGIS Pro workflow problem: quickly logging selection-based feature counts to an Excel .xlsx file.
 
-This ArcGIS Python Toolbox (`.pyt`) and Model Tool (`.tbx`) allows you to **count selected features** in a feature layer and **export the count directly to an Excel file**. It is specifically designed to assist with **AI-powered agricultural analysis**, such as calculating **germination rate**, **planting success rate**, or validating outputs from deep learning models.
+🚀 Key Features
 
----
+✅ Counts currently selected features from a layer in ArcGIS Pro
+✅ Works with shapefiles and geodatabase feature classes (feature layers)
+✅ Writes results to Excel as:
 
-## 📌 Why This Tool?
+Column A: Row1, Row2, Row3 …
 
-When preparing reports based on **artificial intelligence (AI)**, particularly **deep learning-based feature detection**, it is often necessary to export key statistics (like the number of detected objects) for use in calculations or field reports.
+Column B: selection count
 
-I developed this tool to solve the challenge of quickly exporting **selection-based feature counts** from ArcGIS Pro to **Excel spreadsheets**, which are commonly used for:
-- Agricultural reports
-- Field success tracking
-- Germination rate calculations
-- Afforestation project metrics
+✅ Output Folder parameter (no need to type a full .xlsx path every time)
+✅ Auto Excel filename based on layer name (can be overridden)
+✅ Append / Overwrite mode
+✅ Optional Notes field per log entry
+✅ Optional Include Details mode (adds Layer name + Timestamp columns)
+✅ Auto-detect selected layer if Input Layer is left empty (it finds the first layer with a selection)
+✅ If Excel is open/locked, tool saves a safe copy: *_LOCKED_YYYYMMDD_HHMMSS.xlsx instead of failing
 
----
+🧪 Use Cases
 
-## 🚜 Key Features
+Germination rate calculations
+Germination % = (Detected plants) / (Total planting pits) × 100
 
-✅ Count selected features in any shapefile or feature class  
-✅ Save the count as rows in an Excel `.xlsx` file  
-✅ Supports GDB layers, shapefiles, or joined tables  
-✅ Works with AI-based feature detection layers (e.g., Mask R-CNN)  
-✅ Option to overwrite or append to Excel file  
-✅ Choose custom output Excel path  
-✅ Compatible with ArcGIS Pro (Python 3)
+Tracking planting success across farms
 
----
+Validating deep learning detection outputs
 
-## 🧪 Use Cases
+Exporting field statistics for scientific documentation
 
-- Calculate **germination rate**:  
-  *`Germination % = (Number of plants detected) / (Total planting pits) × 100`*
+Afforestation / revegetation / restoration project metrics
 
-- Track **planting success** across large-scale farms  
-- Validate **deep learning outputs** for agricultural or forestry use  
-- Export field-level statistics for scientific documentation  
-- Use in **revegetation**, **desert afforestation**, or **soil restoration** projects
+🛠️ How to Use
 
----
+Add the toolbox to ArcGIS Pro:
+CountSelectedToExcelToolbox_v2.pyt
 
+Select features in your layer (using Select tools).
 
+Run the tool: Count Selected Features to Excel
 
-## 📦 Features
+Choose:
 
-- Works with shapefiles and geodatabase layers.
-- Exports the number of selected features to Excel (.xlsx).
-- Excel file is named after the input layer by default (you can override the name).
-- Supports **Append** (log multiple selection events) or **Overwrite** (start fresh).
-- Ideal for use in agricultural projects, environmental monitoring, and any spatial data analysis.
+Input Layer (or leave empty to auto-detect)
 
----
+Output Folder
 
-## 🛠️ How to Use
+(Optional) Output Excel Name
 
-1. **Add the toolbox** to ArcGIS Pro (`CountSelectedToExcelToolbox_v2.pyt`).
-2. Select any features in your map layer.
-3. Open the toolbox tool: **Count Selected Features to Excel**.
-4. (Optional) Choose the input layer from the dropdown.
-   - If you leave it empty, the tool will auto-detect the first layer that has a selection.
-5. Choose an **Output Folder**.
-6. (Optional) Provide an Excel filename.
-7. Choose **Append** (recommended for logging multiple selections) or **Overwrite**.
-8. Click **Run**.
+Append / Overwrite
 
-If no features are selected, the tool will still create the Excel file with a value of `0`.
+(Optional) Notes
 
----
+(Optional) Include Details
 
-## 📁 Output Example
+Click Run ✅
 
-Default output format:
-| Column A | Column B |
-|---------:|---------:|
-| Row1     | 9432     |
-| Row2     | 1201     |
+⚙️ Parameters (Tool UI)
 
-If you enable **Include details columns**, the tool will also write:
-- Column C: Notes
-- Column D: Layer name
-- Column E: Timestamp
+Input Layer (optional): Feature layer with selected features.
+If empty → tool auto-detects the first layer with a selection.
 
----
+Output Folder (required): Folder where the .xlsx will be saved.
 
-## 📸 Screenshots
+Output Excel Name (optional): Excel filename (default is the layer name).
 
-![Preview](assets/preview.png)
+Write Mode:
 
----
+Append → adds a new row each run
 
-## 🎥 Video Explanation
+Overwrite → starts fresh (recreates sheet content)
 
-📺 [Watch Video Guide](assets/demo.mp4) *(Add this to your repo if available)*
+Notes (optional): Any text you want saved with the selection event (plot ID, field name, etc.)
 
----
+Include Details (True/False):
+If enabled, Excel will include extra columns:
 
-## 📜 License
+Notes
 
-This project is licensed under the [MIT License](LICENSE).
+Layer name
 
----
+Timestamp
 
-## 🙏 Acknowledgments
+📄 Excel Output Format
+Default (simple mode)
+A (Row Label)	B (Count)
+Row1	6931
+Row2	6025
+Row3	4469
+With “Include Details” enabled
+Row Label	Count	Notes	Layer	Timestamp
+Row1	6931	Plot A	f13-ug6-A-plants	2025-12-14 10:31:04
+🧩 Requirements
 
-Special thanks to [Sayer] for the field integration, and to Mr. Sabary for support in testing.
+ArcGIS Pro (Python 3 / ArcPy)
 
----
+openpyxl for Excel writing
+(If missing: install via ArcGIS Pro > Package Manager)
 
-## 💬 Feedback or Issues?
+🧯 Troubleshooting
 
-Feel free to submit issues or improvements via GitHub Issues.
+Excel file is open and tool can’t write:
+✅ Tool automatically saves a new file copy with _LOCKED_YYYYMMDD_HHMMSS.xlsx
 
+Count is always 0:
+
+Ensure the selection exists on the chosen layer
+
+If using auto-detect, ensure only one layer has a selection (or select the correct layer explicitly)
