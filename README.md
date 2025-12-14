@@ -115,20 +115,30 @@ If using auto-detect, ensure only one layer has a selection (or select the corre
 
 ---
 
-## 🔗 Citation
+🤝 Community Works
 
-If you use **CountSelectedToExcel** in a report, publication, or academic work, please cite it:
+We ❤️ contributions from the open-source community!
 
-**Suggested citation (APA-style):**  
-Aal, M. (2025). *CountSelectedToExcel: ArcGIS Pro Python Toolbox to export selected feature count to Excel* [Software]. GitHub. https://github.com/massivedynamics-sd/CountSelectedToExcel
+If your work has improved CountSelectedToExcel—or you’ve used it in a project, workflow, or publication—please let us know so we can credit you and (optionally) add your work to this section for everyone’s convenience.
 
-### BibTeX
-```bibtex
-@software{Aal_CountSelectedToExcel_2025,
-  author  = {Aal, Mohamed},
-  title   = {CountSelectedToExcel: ArcGIS Pro Python Toolbox to export selected feature count to Excel},
-  year    = {2025},
-  url     = {https://github.com/massivedynamics-sd/CountSelectedToExcel},
-  note    = {Accessed: YYYY-MM-DD}
-}
+How to share your contribution
+
+✅ Open a Pull Request (preferred)
+
+✅ Or open an Issue describing your improvement / use case
+
+✅ Or email us at: massivedynamics.sd@gmail.com
+ with:
+
+a link to your repo/article/demo
+
+a 1–2 line description
+
+how you’d like to be credited (name/handle)
+
+Showcase (community projects)
+
+(Add yours here — send us the link!)
+
+🥸 Have fun — and thank you for helping the GIS community!
 
