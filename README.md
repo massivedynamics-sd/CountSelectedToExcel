@@ -112,3 +112,23 @@ Count is always 0:
 Ensure the selection exists on the chosen layer
 
 If using auto-detect, ensure only one layer has a selection (or select the correct layer explicitly)
+
+---
+
+## 🔗 Citation
+
+If you use **CountSelectedToExcel** in a report, publication, or academic work, please cite it:
+
+**Suggested citation (APA-style):**  
+Aal, M. (2025). *CountSelectedToExcel: ArcGIS Pro Python Toolbox to export selected feature count to Excel* [Software]. GitHub. https://github.com/massivedynamics-sd/CountSelectedToExcel
+
+### BibTeX
+```bibtex
+@software{Aal_CountSelectedToExcel_2025,
+  author  = {Aal, Mohamed},
+  title   = {CountSelectedToExcel: ArcGIS Pro Python Toolbox to export selected feature count to Excel},
+  year    = {2025},
+  url     = {https://github.com/massivedynamics-sd/CountSelectedToExcel},
+  note    = {Accessed: YYYY-MM-DD}
+}
+
