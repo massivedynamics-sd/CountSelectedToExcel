@@ -137,8 +137,7 @@ If you use **CountSelectedToExcel** in a report, publication, or academic work, 
 *MassiveDynamics SD.* (2025). *CountSelectedToExcel: ArcGIS Pro Python Toolbox to export selected feature count to Excel* [Software]. GitHub.  
 https://github.com/massivedynamics-sd/CountSelectedToExcel
 
-### BibTeX
-```bibtex
+
 @software{CountSelectedToExcel_2025,
   author  = {MassiveDynamics SD},
   title   = {CountSelectedToExcel: ArcGIS Pro Python Toolbox to export selected feature count to Excel},
