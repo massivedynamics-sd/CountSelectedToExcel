@@ -57,10 +57,16 @@ class SelectionLoggerButton(object):
                     f"Layer '{TARGET_LAYER_NAME}' was not found in the active map."
                 )
 
-            # Count selected features. If nothing is selected, the count will be 0.
-            selected_count = int(
-                arcpy.management.GetCount(target_layer).getOutput(0)
-            )
+            # Count ONLY the currently selected features.
+            #
+            # IMPORTANT:
+            #   arcpy.management.GetCount(layer) often returns the *total* features
+            #   in the layer (ignoring selection) when working with ArcGIS Pro
+            #   layer objects.
+            #
+            # The reliable way is to read the selection set from Describe(...).FIDSet.
+            # FIDSet is a semicolon-separated list of selected ObjectIDs.
+            selected_count = _count_selected_features(target_layer)
 
             # Append the count to Excel (creating the file if needed).
             log_path = _log_selection_to_excel(
@@ -93,6 +99,25 @@ def _find_layer_by_name(map_obj, layer_name):
     return None
 
 
+def _count_selected_features(layer) -> int:
+    """Return the number of selected features for a feature layer.
+
+    Uses Describe(layer).FIDSet which is a semicolon-separated string of selected
+    ObjectIDs. If nothing is selected, FIDSet is an empty string.
+
+    This is more reliable than GetCount(layer) for selection counting in Pro.
+    """
+    desc = arcpy.Describe(layer)
+    fidset = getattr(desc, "FIDSet", "")
+
+    if not fidset:
+        return 0
+
+    # FIDSet is usually ';' separated, but we defensively normalize commas too.
+    parts = [p.strip() for p in fidset.replace(",", ";").split(";") if p.strip()]
+    return len(parts)
+
+
 def _ensure_directory(path):
     """Create the parent directory for the Excel path if it does not exist."""
     parent_dir = os.path.dirname(path)
@@ -114,28 +139,58 @@ def _log_selection_to_excel(layer_name, selection_count, excel_path):
 
     _ensure_directory(excel_path)
 
-    # Initialize or open the workbook. Using openpyxl keeps dependencies light
-    # and is bundled with the ArcGIS Pro Python environment.
+    # Initialize or open the workbook.
+    #
+    # IMPORTANT:
+    #   Do NOT rely on workbook.active for existing files, because the active
+    #   sheet can change (e.g., if a user saved the workbook with a different
+    #   sheet selected). That can cause "event numbers" to restart or headers
+    #   to be missing.
+    sheet_name = "Selection Log"
     if not os.path.exists(excel_path):
         workbook = Workbook()
         worksheet = workbook.active
-        worksheet.title = "Selection Log"
-        # Header row helps keep entries organized.
-        worksheet.append(["Event", "Count", "Layer", "Timestamp"])
+        worksheet.title = sheet_name
     else:
         workbook = load_workbook(excel_path)
-        worksheet = workbook.active
+        worksheet = workbook[sheet_name] if sheet_name in workbook.sheetnames else workbook.create_sheet(sheet_name)
 
-    # Determine the next event number. Header occupies the first row.
-    next_event = worksheet.max_row  # Row numbering starts at 1 with header
+    # Ensure headers exist (first row)
+    if worksheet.max_row < 1 or (worksheet.cell(1, 1).value is None and worksheet.cell(1, 2).value is None):
+        worksheet.append(["Event", "Count", "Layer", "Timestamp"])
+
+    # Determine the next event number (robustly).
+    # We parse the last "Selection Event N" value so numbers never repeat even
+    # if rows are blank or the sheet was edited.
+    next_event = _next_event_number(worksheet)
     event_label = f"Selection Event {next_event}"
-    count_label = f"{selection_count} objects"
+
+    # Keep count as a NUMBER in Excel (better for formulas).
+    count_value = int(selection_count)
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    worksheet.append([event_label, count_label, layer_name, timestamp])
+    worksheet.append([event_label, count_value, layer_name, timestamp])
     workbook.save(excel_path)
 
     return excel_path
+
+
+def _next_event_number(ws) -> int:
+    """Return the next sequential Selection Event number.
+
+    Looks from bottom to top in column A for values like "Selection Event N".
+    If none found, returns 1.
+    """
+    for row in range(ws.max_row, 1, -1):  # skip header row
+        val = ws.cell(row=row, column=1).value
+        if isinstance(val, str) and "Selection Event" in val:
+            # Try to parse the trailing integer.
+            try:
+                n = int(val.strip().split()[-1])
+                return n + 1
+            except Exception:
+                continue
+    return 1
 
 
 # End of file

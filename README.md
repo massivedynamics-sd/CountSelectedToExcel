@@ -53,8 +53,8 @@ I developed this tool to solve the challenge of quickly exporting **selection-ba
 
 - Works with shapefiles and geodatabase layers.
 - Exports the number of selected features to Excel (.xlsx).
-- Excel file is named after the input layer.
-- Starts fresh each time — previous results are not appended.
+- Excel file is named after the input layer by default (you can override the name).
+- Supports **Append** (log multiple selection events) or **Overwrite** (start fresh).
 - Ideal for use in agricultural projects, environmental monitoring, and any spatial data analysis.
 
 ---
@@ -64,9 +64,12 @@ I developed this tool to solve the challenge of quickly exporting **selection-ba
 1. **Add the toolbox** to ArcGIS Pro (`CountSelectedToExcelToolbox_v2.pyt`).
 2. Select any features in your map layer.
 3. Open the toolbox tool: **Count Selected Features to Excel**.
-4. Choose the input layer from the dropdown.
-5. Choose the output location for the Excel file.
-6. Click **Run**.
+4. (Optional) Choose the input layer from the dropdown.
+   - If you leave it empty, the tool will auto-detect the first layer that has a selection.
+5. Choose an **Output Folder**.
+6. (Optional) Provide an Excel filename.
+7. Choose **Append** (recommended for logging multiple selections) or **Overwrite**.
+8. Click **Run**.
 
 If no features are selected, the tool will still create the Excel file with a value of `0`.
 
@@ -74,10 +77,16 @@ If no features are selected, the tool will still create the Excel file with a va
 
 ## 📁 Output Example
 
-Each Excel file contains only:
-| Row # | Selected Count |
-|-------|----------------|
-| 1     | 9432           |
+Default output format:
+| Column A | Column B |
+|---------:|---------:|
+| Row1     | 9432     |
+| Row2     | 1201     |
+
+If you enable **Include details columns**, the tool will also write:
+- Column C: Notes
+- Column D: Layer name
+- Column E: Timestamp
 
 ---
 
