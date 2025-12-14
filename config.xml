@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AddIn language="PYTHON" lib="selection_logger_addin.py" id="CountSelectedToExcel.SelectionLogger" version="1.0">
+  <Name>Selection Count Logger</Name>
+  <Description>Logs the current selection count from a target layer to Excel.</Description>
+  <Author>Your Name</Author>
+  <Company>GIS Automation</Company>
+  <Date>2024-01-01</Date>
+  <Targets>
+    <!-- ArcGIS Pro target -->
+    <Target name="ArcGISPro" />
+  </Targets>
+  <AddInID>{9F050053-0D1D-4A5C-8F1B-297B5A5E5F28}</AddInID>
+  <AddIn>
+    <Buttons>
+      <Button id="CountSelectedToExcel.SelectionLoggerButton"
+              class="SelectionLoggerButton"
+              category="Selection Tools"
+              image="Images\\selection_logger_32.png"
+              smallImage="Images\\selection_logger_16.png"
+              tip="Log the current selection count to Excel"
+              loadOnClick="true" />
+    </Buttons>
+  </AddIn>
+</AddIn>
